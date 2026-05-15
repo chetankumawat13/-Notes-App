@@ -1,15 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../style/form.css'
 
-const Form = ({formData,setFormData}) => {
+const Form = ({formData,setFormData,editData,setEditData}) => {
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-
+   
+    useEffect(() => {
+      if(editData){
+        setTitle(editData.title)
+        setDescription(editData.description)
+      }else{
+        setTitle("")
+        setDescription("")
+      }
+    },[editData])
 
     const submitHandler = (e) => {
         e.preventDefault()
-        setFormData(prev => [...prev, {title, description}])
+        if(editData !=  null){
+          const updateData = [...formData]
+          updateData[editData.index] = {
+            title,
+            description
+          }
+          setFormData(updateData)
+          setEditData(null)
+        }else{
+          setFormData(prev => [...prev, {title, description}])
+        }
+       
         setTitle("")
         setDescription("")
     }
@@ -22,7 +42,7 @@ const Form = ({formData,setFormData}) => {
         <form onSubmit={submitHandler}>
             <input value={title} onChange={(e) => {setTitle(e.target.value)}} type="text" placeholder='Title' />
             <textarea value={description} onChange={(e) => {setDescription(e.target.value)}} placeholder='Description'></textarea>
-            <button>Create</button>
+            <button>{editData ? "update" : "create"}</button>
         </form>
     </div>
   )
