@@ -1,7 +1,7 @@
 import React from 'react'
 import '../style/card.css'
 
-const Card = ({formData,handleDelete}) => {
+const Card = ({formData,handleDelete,handleEdit}) => {
 
   return (
     formData.map((data,index) => (
@@ -14,7 +14,7 @@ const Card = ({formData,handleDelete}) => {
             </div>
             <div className="buttons">
                 <button onClick={(i) => handleDelete(index)} className="dlt-btn">delete</button>
-                <button className="edit-btn">edit</button>
+                <button onClick={(i) => handleEdit(index)} className="edit-btn">edit</button>
             </div>
         </div>
     ))
